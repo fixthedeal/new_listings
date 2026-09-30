@@ -18,7 +18,7 @@ CHECK_EVERY   = 2
 DB_PATH       = os.environ.get("RAILWAY_VOLUME_MOUNT_PATH", ".") + "/seen_listing.db"
 
 if not BOT_TOKEN or not CHANNEL_ID:
-    raise ValueError("BOT_TOKEN dan LISTING_CHANNEL_ID harus diisi di Railway Variables!")
+    raise ValueError("BOT_TOKEN dan CHANNEL_ID harus diisi di Railway Variables!")
 
 DEEPL_API_URL = (
     "https://api-free.deepl.com/v2/translate"
