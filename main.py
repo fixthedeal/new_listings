@@ -107,26 +107,26 @@ SOURCES = [
     {
         "name": "OKX",
         "type": "scrape",
-        "url": "https://www.okx.com/help/section/announcements-latest-announcements",
+        "url": "https://www.okx.com/help/section/announcements-new-listings",
         "logo": "⚫",
     },
     {
         "name": "Bybit",
         "type": "scrape",
-        "url": "https://announcements.bybit.com/en/?category=&page=1",
+        "url": "https://announcements.bybit.com/en/?category=new_crypto&page=1",
         "logo": "🟠",
     },
     {
         "name": "Gate-io",
         "type": "gate_scrape",
-        "url": "https://www.gate.com/announcements/lastest",
+        "url": "https://www.gate.com/announcements/newspotlistings",
         "category": "newspotlistings",
         "logo": "🔵",
     },
     {
         "name": "KuCoin",
         "type": "kucoin_api",
-        "url": "https://api.kucoin.com/api/ua/v1/market/announcement?annType=latest-announcements&lang=en_US&page=1&pageSize=20",
+        "url": "https://api.kucoin.com/api/ua/v1/market/announcement?annType=new-listings&lang=en_US&page=1&pageSize=20",
         "logo": "🟢",
     },
 ]
@@ -134,8 +134,18 @@ SOURCES = [
 # ─── DATABASE ──────────────────────────────────────────────────────────────────
 def init_db():
     con = sqlite3.connect(DB_PATH)
-    con.execute("CREATE TABLE IF NOT EXISTS seen (id TEXT PRIMARY KEY, seen_at TEXT)")
-    con.execute("CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT)")
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS seen (
+            id      TEXT PRIMARY KEY,
+            seen_at TEXT
+        )
+    """)
+    con.execute("""
+        CREATE TABLE IF NOT EXISTS meta (
+            key   TEXT PRIMARY KEY,
+            value TEXT
+        )
+    """)
     con.commit()
     con.close()
 
@@ -162,6 +172,28 @@ def set_baseline_done():
     con.execute("INSERT OR REPLACE INTO meta VALUES ('baseline_done', '1')")
     con.commit()
     con.close()
+
+def count_seen():
+    con = sqlite3.connect(DB_PATH)
+    n = con.execute("SELECT COUNT(*) FROM seen").fetchone()[0]
+    con.close()
+    return n
+
+# ─── KEYWORD CHECK ─────────────────────────────────────────────────────────────
+EXCLUDE_KEYWORDS = [
+    "delist", "removal", "remove", "cease", "termination", "tick size",
+    "suspend", "maintenance", "upgrade", "migration", "swap",
+]
+
+def is_relevant(text):
+    low = text.lower()
+    if any(ex in low for ex in EXCLUDE_KEYWORDS):
+        return False
+    return any(kw in low for kw in KEYWORDS)
+
+def normalize_uid(href: str) -> str:
+    m = re.match(r'^(.*)-\d{8,}$', href.rstrip('/'))
+    return m.group(1) if m else href
 
 # ─── TELEGRAM ──────────────────────────────────────────────────────────────────
 def send_telegram(message, force=False):
