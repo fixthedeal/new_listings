@@ -107,26 +107,26 @@ SOURCES = [
     {
         "name": "OKX",
         "type": "scrape",
-        "url": "https://www.okx.com/help/section/announcements-new-listings",
+        "url": "https://www.okx.com/help/section/announcements-latest-announcements",
         "logo": "⚫",
     },
     {
         "name": "Bybit",
         "type": "scrape",
-        "url": "https://announcements.bybit.com/en/?category=new_crypto&page=1",
+        "url": "https://announcements.bybit.com/en/?category=&page=1",
         "logo": "🟠",
     },
     {
         "name": "Gate-io",
         "type": "gate_scrape",
-        "url": "https://www.gate.com/announcements/newspotlistings",
+        "url": "https://www.gate.com/announcements/lastest",
         "category": "newspotlistings",
         "logo": "🔵",
     },
     {
         "name": "KuCoin",
         "type": "kucoin_api",
-        "url": "https://api.kucoin.com/api/ua/v1/market/announcement?annType=new-listings&lang=en_US&page=1&pageSize=20",
+        "url": "https://api.kucoin.com/api/ua/v1/market/announcement?annType=latest-announcements&lang=en_US&page=1&pageSize=20",
         "logo": "🟢",
     },
 ]
