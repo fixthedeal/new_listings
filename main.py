@@ -38,9 +38,9 @@ HEADERS = {
 
 # ─── KEYWORDS ──────────────────────────────────────────────────────────────────
 KEYWORDS = [
-    "new listing", "will list", "to list", "world premiere",
-    "seed tag", "trading pairs", "tokenized stocks", "convert trading",
-    "spot trading", "kucoin spot", "binance spot",
+    "new listing", "will list", "to list", "world premiere", "gate will launch", "gate to list", "gate will list", "initial listing",
+    "seed tag", "trading pairs", "tokenized stocks", "convert trading", "gate will enable", "listed on kucoin", "okx to list",
+    "spot trading", "kucoin spot", "binance spot", "new listing", "stock listing", "bybit to list", "binance will list",
 ]
 
 def is_relevant(text: str) -> bool:
@@ -181,8 +181,8 @@ def count_seen():
 
 # ─── KEYWORD CHECK ─────────────────────────────────────────────────────────────
 EXCLUDE_KEYWORDS = [
-    "delist", "removal", "remove", "cease", "termination", "tick size",
-    "suspend", "maintenance", "upgrade", "migration", "swap",
+    "delist", "removal", "remove", "cease", "termination", "tick size", "x-perps", "perpetual",
+    "suspend", "maintenance", "upgrade", "migration", "swap", "perpetual futures", "perpetual contract",
 ]
 
 def is_relevant(text):
